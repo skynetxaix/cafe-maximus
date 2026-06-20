@@ -1,0 +1,645 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café MAXIMUS — House of Luxe Flavors</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500;1,600&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================
+           RESET & BASE – تم تاریک لوکس
+           ========================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0c0a09;
+            color: #e8e0d5;
+            padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==========================================================
+           هدر
+           ========================================================== */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(12, 10, 9, 0.92);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid rgba(198, 161, 91, 0.2);
+            padding: 0.6rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem 1.5rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ===== لوگو ===== */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .brand-monogram {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #c6a15b, #a8844a);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #0c0a09;
+            letter-spacing: 0.04em;
+            box-shadow: 0 4px 16px rgba(198, 161, 91, 0.3);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        box-shadow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-monogram::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 60%);
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .brand:hover .brand-monogram {
+            transform: scale(1.08);
+            box-shadow: 0 8px 32px rgba(198, 161, 91, 0.5), 0 0 20px rgba(198, 161, 91, 0.15);
+            background: linear-gradient(135deg, #dbb87a, #c6a15b);
+        }
+
+        .brand:hover .brand-monogram::after {
+            opacity: 0.3;
+        }
+
+        .brand-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .brand:hover .brand-text-wrapper {
+            transform: translateX(4px);
+        }
+
+        .brand-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            font-style: italic;
+            color: #e8e0d5;
+            letter-spacing: 0.04em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+            line-height: 1.1;
+        }
+
+        .brand-text span {
+            color: #c6a15b;
+            transition: color 0.5s ease;
+        }
+
+        .brand:hover .brand-text {
+            color: #ffffff;
+            text-shadow: 0 2px 16px rgba(198, 161, 91, 0.3);
+        }
+
+        .brand:hover .brand-text span {
+            color: #dbb87a;
+        }
+
+        .brand-underline {
+            width: 60%;
+            height: 2px;
+            margin-top: 2px;
+            background: linear-gradient(90deg, #c6a15b, transparent);
+            border-radius: 4px;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .brand:hover .brand-underline {
+            width: 100%;
+        }
+
+        /* ===== ناوبری ===== */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a, .nav-links button {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: rgba(232, 224, 213, 0.6);
+            text-decoration: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 30px;
+            transition: all 0.25s ease;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.03em;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #c6a15b;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 60%;
+        }
+
+        .nav-links a:hover, .nav-links button:hover {
+            color: #ffffff;
+            background: rgba(198, 161, 91, 0.12);
+        }
+
+        .nav-links .btn-primary-nav {
+            background: linear-gradient(135deg, #c6a15b, #a8844a);
+            color: #0c0a09;
+            font-weight: 600;
+            padding: 0.5rem 1.4rem;
+            border-radius: 30px;
+            box-shadow: 0 4px 16px rgba(198, 161, 91, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links .btn-primary-nav::after {
+            display: none;
+        }
+
+        .nav-links .btn-primary-nav:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(198, 161, 91, 0.35);
+            background: linear-gradient(135deg, #dbb87a, #c6a15b);
+            color: #0a0807;
+        }
+
+        .nav-links .btn-outline-nav {
+            border: 1.5px solid rgba(198, 161, 91, 0.3);
+            padding: 0.45rem 1.2rem;
+            border-radius: 30px;
+            background: transparent;
+            color: rgba(232, 224, 213, 0.8);
+        }
+
+        .nav-links .btn-outline-nav:hover {
+            border-color: #c6a15b;
+            background: rgba(198, 161, 91, 0.08);
+            color: #ffffff;
+        }
+
+        .user-avatar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #c6a15b, #a8844a);
+            color: #0c0a09;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            box-shadow: 0 2px 12px rgba(198, 161, 91, 0.3);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .profile-link {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 0.5rem;
+            color: #c6a15b !important;
+            font-weight: 600;
+            padding: 0.3rem 1rem 0.3rem 0.4rem !important;
+            border-radius: 30px !important;
+            background: rgba(198, 161, 91, 0.06);
+            border: 1px solid rgba(198, 161, 91, 0.12);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .profile-link:hover {
+            background: rgba(198, 161, 91, 0.15);
+            border-color: rgba(198, 161, 91, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .profile-link .username-text {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #e8e0d5;
+            letter-spacing: 0.02em;
+        }
+
+        .profile-link:hover .username-text {
+            color: #ffffff;
+        }
+
+        .profile-link::after {
+            display: none !important;
+        }
+
+        .nav-links .btn-logout {
+            color: rgba(232, 224, 213, 0.4);
+            font-size: 0.78rem;
+            padding: 0.35rem 0.8rem;
+        }
+
+        .nav-links .btn-logout:hover {
+            color: #d47a7a;
+            background: rgba(212, 122, 122, 0.08);
+        }
+
+        /* ==========================================================
+           پیام‌ها
+           ========================================================== */
+        .message-container {
+            max-width: 800px;
+            margin: 2rem auto 0 auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .alert {
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            color: #e8e0d5;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .alert-success {
+            border-color: rgba(198, 161, 91, 0.2);
+            color: #dbb87a;
+            background: rgba(198, 161, 91, 0.06);
+        }
+        .alert-error, .alert-danger {
+            border-color: rgba(212, 122, 122, 0.2);
+            color: #d47a7a;
+            background: rgba(212, 122, 122, 0.06);
+        }
+        .alert-warning {
+            border-color: rgba(212, 180, 90, 0.2);
+            color: #d4b45a;
+            background: rgba(212, 180, 90, 0.06);
+        }
+        .alert-info {
+            border-color: rgba(90, 180, 212, 0.2);
+            color: #5ab4d4;
+            background: rgba(90, 180, 212, 0.06);
+        }
+
+        /* ==========================================================
+           فوتر تاریک لوکس
+           ========================================================== */
+        .site-footer {
+            margin-top: auto;
+            background: linear-gradient(180deg, #0c0a09 0%, #050404 100%);
+            border-top: 2px solid rgba(198, 161, 91, 0.1);
+            padding: 3rem 2.5rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c6a15b, #dbb87a, #c6a15b, transparent);
+            opacity: 0.3;
+        }
+
+        .footer-columns {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-brand .brand-text {
+            font-size: 1.8rem;
+            font-style: italic;
+            color: #e8e0d5;
+        }
+        .footer-brand .brand-text span {
+            color: #c6a15b;
+        }
+
+        .footer-brand p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(232, 224, 213, 0.2);
+            line-height: 1.7;
+            max-width: 300px;
+            margin-top: 0.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        .footer-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #c6a15b;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, #c6a15b, transparent);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-links li a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            color: rgba(232, 224, 213, 0.25);
+            text-decoration: none;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-links li a:hover {
+            color: #c6a15b;
+            padding-left: 4px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        .footer-social a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: rgba(232, 224, 213, 0.15);
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid rgba(198, 161, 91, 0.06);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.04em;
+        }
+
+        .footer-social a:hover {
+            color: #c6a15b;
+            border-color: rgba(198, 161, 91, 0.2);
+            background: rgba(198, 161, 91, 0.04);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 2.5rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(232, 224, 213, 0.1);
+            letter-spacing: 0.06em;
+        }
+
+        .footer-bottom .gold-text {
+            color: rgba(198, 161, 91, 0.2);
+        }
+
+        /* المان‌های تزئینی فوتر */
+        .footer-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03;
+        }
+
+        .footer-deco-1 {
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #c6a15b 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+        }
+
+        .footer-deco-2 {
+            top: -100px;
+            left: -100px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #c6a15b 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+        }
+
+        /* ==========================================================
+           واکنش‌گرایی
+           ========================================================== */
+        @media (max-width: 768px) {
+            .site-header {
+                padding: 0.5rem 1.2rem;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .brand { justify-content: center; }
+            .nav-links { justify-content: center; gap: 0.3rem 0.6rem; }
+            .nav-links a, .nav-links button { font-size: 0.75rem; padding: 0.35rem 0.7rem; }
+            .nav-links .btn-primary-nav { padding: 0.35rem 1rem; }
+            .brand-monogram { width: 40px; height: 40px; font-size: 1.3rem; }
+            .brand-text { font-size: 1.5rem; }
+
+            .footer-columns {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            .site-footer { padding: 2.5rem 1.5rem 1.5rem; }
+            .footer-brand p { max-width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            .brand-text { font-size: 1.2rem; }
+            .brand-monogram { width: 34px; height: 34px; font-size: 1rem; }
+            .user-avatar { width: 30px; height: 30px; font-size: 0.8rem; }
+            .profile-link .username-text { font-size: 0.7rem; }
+            .footer-columns { grid-template-columns: 1fr; gap: 1.5rem; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== هدر ====== -->
+    <header class="site-header">
+        <a href="{% url 'food:index' %}" class="brand">
+            <div class="brand-monogram">CM</div>
+            <div class="brand-text-wrapper">
+                <span class="brand-text">Café <span>MAXIMUS</span></span>
+                <div class="brand-underline"></div>
+            </div>
+        </a>
+
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+                <a href="{% url 'food:add_item' %}" class="btn-primary-nav">+ Add Item</a>
+                <a href="{% url 'profile' %}" class="profile-link">
+                    <span class="user-avatar">{{ user.username|slice:":1"|upper }}</span>
+                    <span class="username-text">{{ user.username }}</span>
+                </a>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn-outline-nav">Sign in</a>
+                <a href="{% url 'register' %}" class="btn-primary-nav">Join</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- ====== پیام‌ها ====== -->
+    {% if messages %}
+    <div class="message-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ====== محتوای اصلی ====== -->
+    <main style="flex:1;">
+        {% block body %}
+        {% endblock %}
+    </main>
+
+    <!-- ==========================================================
+         فوتر
+         ========================================================== -->
+    <footer class="site-footer">
+        <div class="footer-deco footer-deco-1"></div>
+        <div class="footer-deco footer-deco-2"></div>
+
+        <div class="footer-columns">
+            <div class="footer-brand">
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem;">
+                    <div style="width:44px;height:44px;background:linear-gradient(135deg,#c6a15b,#a8844a);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.4rem;color:#0c0a09;box-shadow:0 4px 16px rgba(198,161,91,0.2);">CM</div>
+                    <span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-style:italic;color:#e8e0d5;">Café <span style="color:#c6a15b;">MAXIMUS</span></span>
+                </div>
+                <div style="width:80px;height:2px;background:linear-gradient(90deg,#c6a15b,transparent);"></div>
+                <p>where culinary artistry meets modern luxury — a House of Luxe Flavors since 2026.</p>
+            </div>
+
+            <div>
+                <h4 class="footer-heading">Navigate</h4>
+                <ul class="footer-links">
+                    <li><a href="{% url 'food:index' %}">Menu</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Reservations</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-heading">Connect</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">X</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="#">IG</a>
+                    <a href="#">X</a>
+                    <a href="#">YT</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 <span class="gold-text">Café MAXIMUS</span> — Maison des Saveurs</span>
+            <span>
+                <span class="gold-text">✦</span> Proudly crafted by MaxTech <span class="gold-text">✦</span>
+            </span>
+        </div>
+    </footer>
+
+</body>
+</html>

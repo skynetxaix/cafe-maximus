@@ -1,0 +1,326 @@
+{% extends 'food/base.html' %}
+{% block body %}
+
+<style>
+    .profile-wrapper {
+        background: #0c0a09;
+        min-height: 90vh;
+        padding: 3rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 24px;
+        padding: 3rem 3rem 3.5rem;
+        max-width: 460px;
+        width: 100%;
+        box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(198, 161, 91, 0.06);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .profile-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #c6a15b, #dbb87a, #c6a15b, transparent);
+        opacity: 0.3;
+    }
+
+    .profile-divider {
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, #c6a15b, transparent);
+        border-radius: 4px;
+        margin: 0 auto 1.5rem auto;
+    }
+
+    /* ==========================================================
+       آواتار فانتزی – فقط حرف اول
+       ========================================================== */
+    .profile-avatar {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        margin: 0 auto 1.25rem auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.5s ease;
+        flex-shrink: 0;
+    }
+
+    .profile-avatar:hover {
+        transform: scale(1.04);
+    }
+
+    /* حلقه‌های تزئینی اطراف آواتار */
+    .profile-avatar::before {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #c6a15b, #dbb87a, #a8844a, #c6a15b);
+        background-size: 300% 300%;
+        animation: rotateGradient 6s ease-in-out infinite;
+        z-index: 0;
+        opacity: 0.4;
+    }
+
+    .profile-avatar::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 50%;
+        background: transparent;
+        border: 1px solid rgba(198, 161, 91, 0.08);
+        z-index: 1;
+    }
+
+    @keyframes rotateGradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* دایره داخلی آواتار */
+    .avatar-inner {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: linear-gradient(145deg, rgba(198, 161, 91, 0.08), rgba(168, 132, 74, 0.02));
+        border: 1px solid rgba(198, 161, 91, 0.06);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+        overflow: hidden;
+        backdrop-filter: blur(4px);
+        box-shadow: inset 0 2px 20px rgba(198, 161, 91, 0.02);
+    }
+
+    /* حرف اول – استایل فانتزی */
+    .avatar-inner .initials {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.8rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #dbb87a, #c6a15b, #a8844a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 24px rgba(198, 161, 91, 0.2);
+        line-height: 1;
+        letter-spacing: 0.02em;
+        position: relative;
+        z-index: 3;
+        transition: transform 0.4s ease;
+    }
+
+    .profile-avatar:hover .initials {
+        transform: scale(1.06);
+    }
+
+    /* المان تزئینی: نقطه‌های طلایی دور آواتار */
+    .avatar-dots {
+        position: absolute;
+        inset: -12px;
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .avatar-dots::before,
+    .avatar-dots::after {
+        content: '✦';
+        position: absolute;
+        font-size: 0.7rem;
+        color: rgba(198, 161, 91, 0.12);
+    }
+
+    .avatar-dots::before {
+        top: -4px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .avatar-dots::after {
+        bottom: -4px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* ==========================================================
+       بقیه المان‌های پروفایل
+       ========================================================== */
+    .profile-card .username {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        color: #e8e0d5;
+        margin: 0 0 0.2rem 0;
+        letter-spacing: -0.01em;
+    }
+
+    .profile-card .user-handle {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        color: rgba(232, 224, 213, 0.2);
+        margin: 0 0 1.5rem 0;
+        letter-spacing: 0.06em;
+    }
+
+    .profile-divider-light {
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(198, 161, 91, 0.2), transparent);
+        margin: 0 auto 1.5rem auto;
+    }
+
+    .profile-stats {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .profile-stats .stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-stats .stat-number {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #e8e0d5;
+        letter-spacing: -0.01em;
+    }
+
+    .profile-stats .stat-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.65rem;
+        font-weight: 500;
+        color: rgba(232, 224, 213, 0.15);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-top: 0.1rem;
+    }
+
+    .profile-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 0.25rem;
+    }
+
+    .btn-edit {
+        display: inline-block;
+        padding: 0.7rem 2.2rem;
+        background: linear-gradient(135deg, #c6a15b, #a8844a);
+        color: #0c0a09;
+        border: none;
+        border-radius: 30px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+        letter-spacing: 0.04em;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 16px rgba(198, 161, 91, 0.15);
+    }
+
+    .btn-edit:hover {
+        background: linear-gradient(135deg, #dbb87a, #c6a15b);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(198, 161, 91, 0.25);
+        color: #0a0807;
+    }
+
+    .btn-logout-profile {
+        display: inline-block;
+        padding: 0.7rem 1.8rem;
+        background: transparent;
+        color: rgba(232, 224, 213, 0.3);
+        border: 1.5px solid rgba(255, 255, 255, 0.04);
+        border-radius: 30px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.4s ease;
+    }
+
+    .btn-logout-profile:hover {
+        border-color: rgba(212, 122, 122, 0.2);
+        color: #d47a7a;
+        background: rgba(212, 122, 122, 0.04);
+    }
+
+    @media (max-width: 480px) {
+        .profile-wrapper { padding: 1.5rem 1rem; }
+        .profile-card { padding: 2rem 1.25rem 2.5rem; border-radius: 18px; }
+        .profile-avatar { width: 100px; height: 100px; }
+        .avatar-inner .initials { font-size: 2.8rem; }
+        .profile-card .username { font-size: 1.6rem; }
+        .profile-stats { gap: 1.5rem; }
+        .profile-stats .stat-number { font-size: 1.1rem; }
+        .profile-actions { flex-direction: column; }
+        .profile-actions a { width: 100%; text-align: center; }
+    }
+</style>
+
+<div class="profile-wrapper">
+    <div class="profile-card">
+        <div class="profile-divider"></div>
+
+        <!-- ==========================================================
+             آواتار فانتزی – فقط حرف اول
+             ========================================================== -->
+        <div class="profile-avatar">
+            <div class="avatar-dots"></div>
+            <div class="avatar-inner">
+                <span class="initials">{{ user.username|slice:":1"|upper }}</span>
+            </div>
+        </div>
+
+        <h1 class="username">{{ user.username }}</h1>
+        <p class="user-handle">@{{ user.username|lower }}</p>
+
+        <div class="profile-divider-light"></div>
+
+        <div class="profile-stats">
+            <div class="stat">
+                <span class="stat-number">—</span>
+                <span class="stat-label">Items</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">—</span>
+                <span class="stat-label">Reviews</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">—</span>
+                <span class="stat-label">Joined</span>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="#" class="btn-edit">Edit profile</a>
+            <a href="{% url 'logout' %}" class="btn-logout-profile">Sign out</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

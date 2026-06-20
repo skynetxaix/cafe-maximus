@@ -1,0 +1,225 @@
+{% extends 'food/base.html' %}
+{% block body %}
+
+<style>
+    .detail-wrapper {
+        background: #0c0a09;
+        min-height: 90vh;
+        padding: 3rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .detail-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(8px);
+        border-radius: 24px;
+        box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(198, 161, 91, 0.04);
+        max-width: 1000px;
+        width: 100%;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border: 1px solid rgba(198, 161, 91, 0.04);
+    }
+
+    .detail-image-wrap {
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        min-height: 380px;
+        position: relative;
+    }
+
+    .detail-image-wrap::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 30% 30%, rgba(198, 161, 91, 0.04), transparent 60%);
+        pointer-events: none;
+    }
+
+    .detail-image-wrap img {
+        max-width: 100%;
+        max-height: 420px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 12px;
+        transition: transform 0.6s ease, filter 0.5s ease;
+        filter: brightness(0.92);
+    }
+
+    .detail-image-wrap img:hover {
+        transform: scale(1.03);
+        filter: brightness(1.05);
+    }
+
+    .detail-content {
+        padding: 2.5rem 2.5rem 2.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
+
+    .detail-divider {
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, #c6a15b, transparent);
+        border-radius: 4px;
+        margin-bottom: 1rem;
+    }
+
+    .detail-content .item-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.4rem;
+        color: #e8e0d5;
+        margin: 0 0 0.25rem 0;
+        line-height: 1.2;
+    }
+
+    .detail-content .item-sub {
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-size: 0.9rem;
+        color: rgba(232, 224, 213, 0.2);
+        letter-spacing: 0.06em;
+        margin-bottom: 1.25rem;
+    }
+
+    .detail-content .item-desc {
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        color: rgba(232, 224, 213, 0.5);
+        line-height: 1.8;
+        margin: 0 0 1.5rem 0;
+        max-width: 90%;
+    }
+
+    .price-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+    }
+
+    .price-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: rgba(232, 224, 213, 0.15);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .detail-content .item-price {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.2rem;
+        color: #c6a15b;
+        font-weight: 700;
+    }
+
+    .detail-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 0.25rem;
+    }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.7rem 1.6rem;
+        background: transparent;
+        color: rgba(232, 224, 213, 0.3);
+        border: 1.5px solid rgba(255, 255, 255, 0.04);
+        border-radius: 30px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.4s ease;
+    }
+
+    .btn-back:hover {
+        border-color: rgba(198, 161, 91, 0.2);
+        color: #e8e0d5;
+        background: rgba(198, 161, 91, 0.04);
+    }
+
+    .btn-delete {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.7rem 1.6rem;
+        background: transparent;
+        color: rgba(212, 122, 122, 0.4);
+        border: 1.5px solid rgba(212, 122, 122, 0.06);
+        border-radius: 30px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.4s ease;
+    }
+
+    .btn-delete:hover {
+        border-color: rgba(212, 122, 122, 0.2);
+        color: #d47a7a;
+        background: rgba(212, 122, 122, 0.04);
+    }
+
+    @media (max-width: 820px) {
+        .detail-card { grid-template-columns: 1fr; border-radius: 18px; }
+        .detail-image-wrap { min-height: 240px; padding: 1.5rem; }
+        .detail-image-wrap img { max-height: 280px; }
+        .detail-content { padding: 1.75rem 1.5rem 2rem; }
+        .detail-content .item-name { font-size: 1.8rem; }
+        .detail-content .item-desc { max-width: 100%; font-size: 0.95rem; }
+        .detail-content .item-price { font-size: 1.8rem; }
+    }
+
+    @media (max-width: 480px) {
+        .detail-wrapper { padding: 1rem; }
+        .detail-content { padding: 1.25rem 1rem 1.5rem; }
+        .detail-content .item-name { font-size: 1.5rem; }
+        .detail-actions { flex-direction: column; }
+        .detail-actions a { justify-content: center; }
+    }
+</style>
+
+<div class="detail-wrapper">
+    <div class="detail-card">
+        <div class="detail-image-wrap">
+            {% if item.item_image %}
+                <img src="{{ item.item_image }}" alt="{{ item.item_name }}" />
+            {% else %}
+                <img src="https://via.placeholder.com/600x400/1a1715/c6a15b?text=No+Image" alt="No image" />
+            {% endif %}
+        </div>
+        <div class="detail-content">
+            <div class="detail-divider"></div>
+            <h1 class="item-name">{{ item.item_name }}</h1>
+            <p class="item-sub">— curated selection</p>
+            <p class="item-desc">{{ item.item_desc }}</p>
+            <div class="price-row">
+                <span class="price-label">Price</span>
+                <span class="item-price">${{ item.item_price }}</span>
+            </div>
+            <div class="detail-actions">
+                <a href="{% url 'food:index' %}" class="btn-back">← Back</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'food:delete_item' item.id %}" class="btn-delete">✕ Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

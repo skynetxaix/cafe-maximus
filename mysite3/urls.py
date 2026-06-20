@@ -23,10 +23,11 @@ from django.contrib.auth import views as authentication_views
 from users.views import logout_view
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("food/",include ('food.urls')),
-    path("", home),
+    path("", lambda request: redirect('food:index')),
     path('register/',users_views.register,name='register'),
     path('login/',authentication_views.LoginView.as_view(template_name='users/login.html'),name='login'),
     #path('logout/',authentication_views.LogoutView.as_view(template_name='users/logout.html'),name='logout'),

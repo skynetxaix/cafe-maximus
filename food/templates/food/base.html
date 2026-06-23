@@ -559,7 +559,9 @@
         <div class="nav-links">
             {% if user.is_authenticated %}
                 <a href="{% url 'food:add_item' %}" class="btn-primary-nav">+ Add Item</a>
+                <a href="{% url 'food:Orders' %}" class="btn-primary-nav"> My Orders({{ order_count }})</a>
                 <a href="{% url 'profile' %}" class="profile-link">
+                
                     <span class="user-avatar">{{ user.username|slice:":1"|upper }}</span>
                     <span class="username-text">{{ user.username }}</span>
                 </a>

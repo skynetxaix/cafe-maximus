@@ -3,6 +3,7 @@ from django.contrib import messages
 from . forms import RegisterForm
 from django.contrib.auth import logout
 from django .contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 # Create your views here.
 def register(request):
     if request.method=='POST':
@@ -23,7 +24,7 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
-
+@never_cache
 @login_required
 def profilepage(request):
     profile = request.user.profile

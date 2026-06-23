@@ -17,7 +17,6 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from food.views import home
 from users import views as users_views
 from django.contrib.auth import views as authentication_views
 from users.views import logout_view

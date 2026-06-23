@@ -14,3 +14,11 @@ class Item (models.Model):
 
 def get_absolute_url(self):
     return reverse ("food:detail",kwargs={"pk":self.pk})
+
+
+class Order(models.Model):
+    user= models.ForeignKey(User, on_delete=models.CASCADE)
+    orderd_item=models.ForeignKey(Item ,on_delete=models.CASCADE )
+    order_time= models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f"{self.user.username} - {self.orderd_item.item_name}"

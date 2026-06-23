@@ -3,18 +3,12 @@
 {% block body %}
 
 <style>
-    /* ==========================================================
-       صفحه اصلی – تم تاریک لوکس
-       ========================================================== */
     .page-wrapper {
         background: #0c0a09;
         min-height: 90vh;
         padding: 0 1.5rem 3rem 1.5rem;
     }
 
-    /* ==========================================================
-       بنر (تاریک)
-       ========================================================== */
     .royal-banner {
         max-width: 1200px;
         margin: 0 auto 3rem auto;
@@ -186,9 +180,7 @@
         color: rgba(198, 161, 91, 0.4);
     }
 
-    /* ==========================================================
-       عنوان Menu (تاریک)
-       ========================================================== */
+    
     .page-header {
         max-width: 1200px;
         margin: 0 auto 3rem auto;
@@ -255,9 +247,7 @@
         border-bottom: 1px dashed rgba(198, 161, 91, 0.08);
     }
 
-    /* ==========================================================
-       کارت‌های آیتم – تاریک با طلایی
-       ========================================================== */
+    
     .item-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -454,7 +444,7 @@
         transform: scale(0.97);
     }
 
-    /* ===== حالت خالی ===== */
+   
     .empty-state {
         text-align: center;
         padding: 4rem 2rem;
@@ -480,9 +470,6 @@
         margin: 0;
     }
 
-    /* ==========================================================
-       واکنش‌گرایی
-       ========================================================== */
     @media (max-width: 768px) {
         .royal-banner {
             padding: 2.5rem 1.5rem;
@@ -514,7 +501,7 @@
 </style>
 
 <div class="page-wrapper">
-    <!-- ===== بنر ===== -->
+    
     <div class="royal-banner">
         <div class="royal-columns">
             <span class="column"></span>
@@ -543,7 +530,6 @@
         </div>
     </div>
 
-    <!-- ===== عنوان Menu ===== -->
     <div class="page-header">
         <div class="menu-title-group">
             <h1 class="menu-title">Menu</h1>
@@ -552,7 +538,6 @@
         <span class="item-count">{{ item_list|length }} items</span>
     </div>
 
-    <!-- ===== لیست آیتم‌ها ===== -->
     {% if item_list %}
     <div class="item-grid">
         {% for item in item_list %}
@@ -590,7 +575,6 @@
     </div>
     {% else %}
     <div class="empty-state">
-        <div class="empty-icon">🍽️</div>
         <h2>Nothing here yet</h2>
         <p>Be the first to add a delicious item to the collection.</p>
     </div>

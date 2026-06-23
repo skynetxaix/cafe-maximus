@@ -13,6 +13,7 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.db.models import Sum
+
 # Create your views here.
 # def index (request):
 #     item_list=Item.objects.all()
@@ -47,6 +48,17 @@ class FoodDetail (DetailView):
     model=Item
     template_name='food/detail.html'
     context_object_name = 'item'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            orders = Order.objects.filter(
+                user=self.request.user
+            ).values('orderd_item_id').annotate(count=Count('id'))
+            context['orders_per_item'] = {o['orderd_item_id']: o['count'] for o in orders}
+        else:
+            context['orders_per_item'] = {}
+        return context
 
 def home(request):
     return render(request,'food/home.html')
@@ -160,3 +172,6 @@ def delete_order(request,pk):
     order=get_object_or_404(Order,pk=pk,user=request.user)
     order.delete()
     return redirect('food:Orders')
+
+
+

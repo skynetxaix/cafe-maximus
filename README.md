@@ -37,4 +37,4 @@ Cafe Maximus is a dark-luxury themed restaurant web app where users can browse a
 
 ## Author
 
-Ali Ghaziasgar — [@skynetxaix](https://github.com/skynetxaix)
+A.G — [@skynetxaix](https://github.com/skynetxaix)
